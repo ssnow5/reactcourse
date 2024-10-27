@@ -1,7 +1,9 @@
 import MainNavigation from "../components/MainNavigation";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 
 function RootLayout() {
+  // const events = useLoaderData();
+  // console.log(events);
   return (
     <>
       <MainNavigation />
