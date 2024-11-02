@@ -1,20 +1,21 @@
-'use server';
+"use server";
 
-import { saveMeal } from './meals';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from "next/cache";
+import { saveMeal } from "./meals";
+import { redirect } from "next/navigation";
 
 function isInvalidText(text) {
-  return !text || text.trim() === '';
+  return !text || text.trim() === "";
 }
 
 export async function shareMeal(prevState, formData) {
   const meal = {
-    title: formData.get('title'),
-    summary: formData.get('summary'),
-    instructions: formData.get('instructions'),
-    image: formData.get('image'),
-    creator: formData.get('name'),
-    creator_email: formData.get('email'),
+    title: formData.get("title"),
+    summary: formData.get("summary"),
+    instructions: formData.get("instructions"),
+    image: formData.get("image"),
+    creator: formData.get("name"),
+    creator_email: formData.get("email"),
   };
 
   if (
@@ -23,16 +24,17 @@ export async function shareMeal(prevState, formData) {
     isInvalidText(meal.instructions) ||
     isInvalidText(meal.creator) ||
     isInvalidText(meal.creator_email) ||
-    !meal.creator_email.includes('@') ||
+    !meal.creator_email.includes("@") ||
     !meal.image ||
     meal.image.size === 0
   ) {
     //throw new Error('Invalid input');
     return {
-      message: 'Invalid input.',
+      message: "Invalid input.",
     };
   }
   //    console.log(meal);
   await saveMeal(meal);
-  redirect('/meals');
+  revalidatePath("/meals");
+  redirect("/meals");
 }
