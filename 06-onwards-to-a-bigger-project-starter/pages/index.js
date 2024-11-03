@@ -1,6 +1,7 @@
-import { MongoClient } from "mongodb";
-import MeetupList from "../components/meetups/MeetupList";
-import { useEffect, useState } from "react";
+import Head from 'next/head';
+import { MongoClient } from 'mongodb';
+import MeetupList from '../components/meetups/MeetupList';
+import { Fragment, useEffect, useState } from 'react';
 
 // const DUMMY_MEETUPS = [
 //   {
@@ -30,17 +31,28 @@ function HomePage(props) {
 
   // return <MeetupList meetups={loadedMeetups} />;
 
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active React meetups!"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </Fragment>
+  );
 }
 
 export async function getStaticProps() {
   const client = await MongoClient.connect(
-    "mongodb+srv://reactcourse:6ePlv1mbTWtu@cluster0.rtpnmta.mongodb.net/meetups?retryWrites=true&w=majority&appName=Cluster0"
+    'mongodb+srv://reactcourse:6ePlv1mbTWtu@cluster0.rtpnmta.mongodb.net/meetups?retryWrites=true&w=majority&appName=Cluster0'
   );
 
   const db = client.db();
 
-  const meetupsCollection = db.collection("meetups");
+  const meetupsCollection = db.collection('meetups');
 
   const meetups = await meetupsCollection.find().toArray();
 
