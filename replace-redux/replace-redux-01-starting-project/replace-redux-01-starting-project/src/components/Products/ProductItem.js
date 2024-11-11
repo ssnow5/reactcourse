@@ -7,8 +7,9 @@ import { toggleFav } from "../../store/actions/products";
 import { ProductsContext } from "../../context/products-context";
 import { useStore } from "../../hooks-store/store";
 
-const ProductItem = (props) => {
-  const dispatch = useStore()[1];
+const ProductItem = React.memo((props) => {
+  console.log("RENDERING");
+  const dispatch = useStore(false)[1];
   // const dispatch = useDispatch();
   //const toggleFav = useContext(ProductsContext).toggleFav;
 
@@ -33,6 +34,6 @@ const ProductItem = (props) => {
       </div>
     </Card>
   );
-};
+});
 
 export default ProductItem;
